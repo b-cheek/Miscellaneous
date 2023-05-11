@@ -6,7 +6,7 @@ class Card:
         self.suit = suit
         self.points = self.calculate_points()
 
-    def calculate_points(self):
+    def calculate_points(self): ## Note that the value of a wild card is handled separately, since I want the cards to be immutable
         if self.value == 'Joker':
             return 50
         elif self.value in ['Jack', 'Queen', 'King']:
@@ -21,9 +21,10 @@ class Card:
 
 class Deck:
     def __init__(self):
-        self.cards = []
+        
+        self.cards = [] ## Players draw from deck.cards, also how dealing works
         self.discard_pile = []
-        self.populate()
+        self.populate() ## Fill the deck with cards
 
     def populate(self):
         for _ in range(2): ## Two decks
@@ -61,20 +62,43 @@ class Player:
     def __init__(self):
         self.hand = []
         self.out_hand = []
+        self.wild = None ## Current wild value for internal use
+        self.num_wilds = 0 ## Number of wilds in the hand
 
     def draw_card(self, deck):
-        self.hand.append(deck.cards.pop())
+        ## Put cards in order as you are given them
+        card = deck.cards.pop()
+
+        ## Wilds and jokers are always at the end for ease of parsing and inserting (note self.num_wilds)
+        if card.value == self.wild or card.value == "Joker":
+            ## Put at end of hand
+            self.hand.append(card)
+            self.num_wilds += 1
+            return
+
+        if len(self.hand) == 0:
+            self.hand.append(card)
+            return
+
+        insert_index = 0
+        while (insert_index < len(self.hand)-self.num_wilds and self.hand[insert_index].points < card.points):
+            insert_index += 1
+        self.hand.insert(insert_index, card)
 
     def discard(self, card, deck):
         deck.discard_pile.append(card)
         self.hand.remove(card)
 
     def make_move(self, deck, wild):
-        # Placeholder for now
+        ## Pick up a card
+        if deck.cards[-1] == "Joker" or deck.cards[-1].value == wild:
+            self.hand.append(deck.cards.pop())
+
+        
+
         return False ## Return true if the player goes out, false otherwise
 
     def go_out(self):
-        ## Move books and runs into the out hand, and return the points of other cards
         return sum([card.points for card in self.hand])
 
     def __str__(self):
@@ -89,17 +113,18 @@ class Player:
 
 deck = Deck()
 
-numPlayers = int(input("How many players? "))
-players = [Player() for _ in range(numPlayers)]
-scores = [0 for _ in range(numPlayers)]
+num_players = int(input("How many players? "))
+players = [Player() for _ in range(num_players)]
+scores = [0 for _ in range(num_players)]
 
 for round in range(11):
 
     ## Setup
-    wild = round + 3 ## Rounds are zero indexed, 3 is wild on the first round
+    wild = str(round + 3) ## Rounds are zero indexed, 3 is wild on the first round
     if wild == 11: wild = "Jack"
     elif wild == 12: wild = "Queen"
     elif wild == 13: wild = "King"
+    for player in players: player.wild = wild
     deck.shuffle()
     deck.deal(round, players)
 
