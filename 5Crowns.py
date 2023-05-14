@@ -98,29 +98,53 @@ class Player:
         ## Check if it's helpful
         card = self.draw_card(deck.discard_pile)
         card_index = self.hand.index(card)
+
+        run_size = self.find_run(card, card_index)
+        book_size = self.find_book(card, card_index)
+
+        return False ## Return true if the player goes out, false otherwise
+
+    def find_run(self, card, card_index):
         ## Determine if the card is in a run
-        run_size = 0
+        run_size = 1
         ## Check left
-        l = card_index ## Index will move to the left in hand, checking adjacent cards
-        run_left_val = card.points ## This will decrement according to ensure decrease by one
+        l = card_index - 1 ## Index will move to the left in hand, checking adjacent cards
+        run_left_val = card.points ## This will decrement accordingly to ensure decrease by one
         while l>=0 and self.hand[l].points >= run_left_val - 1: ## ^ continue while no jumps >1
-            if self.hand[l].suit == card.suit:
-                run_size += 1 
-            if self.hand[l].points == run_left_val - 1: ## Adjust left val as moving
+            if self.hand[l].suit == card.suit and self.hand[l].points == run_left_val - 1:
+                ## If it's the same suit and the next value down, it's a run
+                run_size += 1
                 run_left_val -= 1
             l -= 1
 
         ## Do the same for the right side
-        r = card_index + 1 ## Start right of the pulled card so it is not double-counted
+        r = card_index + 1
         run_right_val = card.points
         while r < len(self.hand)-self.num_wilds and self.hand[r].points <= run_right_val + 1:
-            if self.hand[r].suit == card.suit:
-                run_size += 1 
-            if self.hand[r].points == run_right_val + 1:
+            if self.hand[r].suit == card.suit and self.hand[r].points == run_right_val + 1:
+                ## If it's the same suit and the next value down, it's a run
+                run_size += 1
                 run_right_val += 1
             r += 1
 
-        return False ## Return true if the player goes out, false otherwise
+        return run_size
+
+    def find_book(self, card, card_index): ## This one's easier because books are sorted together
+        ## Determine if the card is in a book
+        book_size = 0
+        ## Check left
+        l = card_index
+        while l>=0 and self.hand[l].points == card.points:
+            book_size += 1
+            l -= 1
+
+        ## Do the same on the right side
+        r = card_index + 1
+        while r < len(self.hand)-self.num_wilds and self.hand[r].points == card.points:
+            book_size += 1
+            r += 1
+
+        return book_size
 
     def go_out(self):
         return sum([card.points for card in self.hand])
@@ -170,4 +194,3 @@ for round in range(11):
 
     ## Put all cards back in the deck
     for _ in range(len(deck.discard_pile)): deck.cards.append(deck.discard_pile.pop())
-        
