@@ -99,50 +99,54 @@ class Player:
         card = self.draw_card(deck.discard_pile)
         card_index = self.hand.index(card)
 
+        ## Option 1: determine value of the discard based on the runs/books it joins
         run_size = self.find_run(card, card_index)
         book_size = self.find_book(card, card_index)
+
+        ## Option 2: check value from a preset list of value cards
+
+        ## Return the card to the discard pile
+        deck.discard_pile.append(hand.pop(card_index)) 
 
         return False ## Return true if the player goes out, false otherwise
 
     def find_run(self, card, card_index):
         ## Determine if the card is in a run
+        run_size = self.find_run_1d(card, card_index, -1) ## Add left run
+        run_size += self.find_run_1d(card, card_index, 1) - 1 ## Account for duplicate "card"
+
+        return run_size
+        
+    def find_run_1d(self, card, card_index, direction):
         run_size = 1
-        ## Check left
-        l = card_index - 1 ## Index will move to the left in hand, checking adjacent cards
-        run_left_val = card.points ## This will decrement accordingly to ensure decrease by one
-        while l>=0 and self.hand[l].points >= run_left_val - 1: ## ^ continue while no jumps >1
-            if self.hand[l].suit == card.suit and self.hand[l].points == run_left_val - 1:
-                ## If it's the same suit and the next value down, it's a run
+        temp = card_index + direction ## Index will move either left or right in hand, (direction = -1 or 1)
+        run_end_val = card.points ## This will decrement/increment accordingly to ensure adjacent value
+        while temp>=0 and temp<len(self.hand) - self.num_wilds \
+            and (self.hand[temp].points - run_end_val)/direction <= 1: ## ^ continue while no jumps >direction
+            ## Note that we can't multiply both sides by direction since it is not always the same sign
+            ## /direction basically is like using abs(), while also scaling the difference to direction
+            if self.hand[temp].suit == card.suit and self.hand[temp].points == run_end_val + direction:
+                ## If it's the same suit and the next value, it's a run
                 run_size += 1
-                run_left_val -= 1
-            l -= 1
-
-        ## Do the same for the right side
-        r = card_index + 1
-        run_right_val = card.points
-        while r < len(self.hand)-self.num_wilds and self.hand[r].points <= run_right_val + 1:
-            if self.hand[r].suit == card.suit and self.hand[r].points == run_right_val + 1:
-                ## If it's the same suit and the next value down, it's a run
-                run_size += 1
-                run_right_val += 1
-            r += 1
-
+                run_end_val += direction
+            temp += direction
+        
         return run_size
 
     def find_book(self, card, card_index): ## This one's easier because books are sorted together
         ## Determine if the card is in a book
-        book_size = 0
-        ## Check left
-        l = card_index
-        while l>=0 and self.hand[l].points == card.points:
-            book_size += 1
-            l -= 1
+        book_size = self.find_book_1d(card, card_index, -1) ## Add left book
+        book_size += self.find_book_1d(card, card_index, 1) - 1 ## Account for duplicate "card"
 
-        ## Do the same on the right side
-        r = card_index + 1
-        while r < len(self.hand)-self.num_wilds and self.hand[r].points == card.points:
+        return book_size
+
+    def find_book_1d(self, card, card_index, direction):
+        book_size = 1
+        temp = card_index + direction
+        while temp>=0 and temp < len(self.hand) + self.num_wilds \
+            and self.hand[temp].points == card.points:
             book_size += 1
-            r += 1
+            temp += direction
 
         return book_size
 
