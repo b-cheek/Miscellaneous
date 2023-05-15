@@ -99,14 +99,39 @@ class Player:
         card = self.draw_card(deck.discard_pile)
         card_index = self.hand.index(card)
 
-        ## Option 1: determine value of the discard based on the runs/books it joins
+        ## These variables show the size of the run or book the card is in
         run_size = self.find_run(card, card_index)
         book_size = self.find_book(card, card_index)
 
-        ## Option 2: check value from a preset list of value cards
+        deck.discard_pile.append(hand.pop(card_index)) ## Will add condition for only if not valuable
 
-        ## Return the card to the discard pile
-        deck.discard_pile.append(hand.pop(card_index)) 
+        card = self.draw_card(deck.cards) ## Draw a card from the deck
+
+        ## Check if its helpful
+        card_index = self.hand.index(card)
+
+        run_size = self.find_run(card, card_index)
+        book_size = self.find_book(card, card_index)
+
+        ## Determine what card to discard
+        ## Discard something with the most points;
+        ## Descend through hand until not in a run or book
+        temp_index = len(self.hand) - self.num_wilds - 1
+        temp_card
+        valuable = True
+
+        while valuable:
+            run_size = self.find_run(temp_card, temp_index)
+            book_size = self.find_book(temp_card, temp_index)
+            if run_size + book_size > 2: ## If it has at least one other card in same book/run, keep it
+                temp_index -= min(find_run_1d(temp_card, temp_index, -1), find_run_1d(temp_card, temp_index, 1))
+            else:
+                valuable = False
+
+        ## Note that if you have a bunch of pairs, it would consider all of them valuable
+        ## I need to add some sort of logic to consider this, and also to go out if possible
+
+        deck.discard_pile.append(self.hand.pop(temp_index))
 
         return False ## Return true if the player goes out, false otherwise
 
