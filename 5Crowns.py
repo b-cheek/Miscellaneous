@@ -95,36 +95,33 @@ class Player:
         if deck.discard_pile[-1] == "Joker" or deck.discard_pile[-1].value == wild:
             self.draw_card(deck.discard_pile)
 
-        ## Check if it's helpful
-        card = self.draw_card(deck.discard_pile)
-        card_index = self.hand.index(card)
+        else:
+            ## Check if it's helpful
+            card = self.draw_card(deck.discard_pile)
+            card_index = self.hand.index(card)
 
-        ## These variables show the size of the run or book the card is in
-        run_size = self.find_run(card, card_index)
-        book_size = self.find_book(card, card_index)
+            ## These variables show the size of the run or book the card is in
+            run_size = self.find_run(card, card_index)
+            book_size = self.find_book(card, card_index)
 
-        deck.discard_pile.append(hand.pop(card_index)) ## Will add condition for only if not valuable
-
-        card = self.draw_card(deck.cards) ## Draw a card from the deck
-
-        ## Check if its helpful
-        card_index = self.hand.index(card)
-
-        run_size = self.find_run(card, card_index)
-        book_size = self.find_book(card, card_index)
+            if run_size + book_size < 2: ## The discard isn't valuable, pick up from cards instead
+                deck.discard_pile.append(hand.pop(card_index))
+                ## No need to check if it's helpful, because we can't see it until we pick it up
+                self.draw_card(deck.cards) ## Draw a card from the deck
 
         ## Determine what card to discard
         ## Discard something with the most points;
         ## Descend through hand until not in a run or book
         temp_index = len(self.hand) - self.num_wilds - 1
-        temp_card
+        temp_card = self.hand[temp_index]
         valuable = True
 
         while valuable:
             run_size = self.find_run(temp_card, temp_index)
             book_size = self.find_book(temp_card, temp_index)
             if run_size + book_size > 2: ## If it has at least one other card in same book/run, keep it
-                temp_index -= min(find_run_1d(temp_card, temp_index, -1), find_run_1d(temp_card, temp_index, 1))
+                ## Traverse through the hand, skipping cards in the same book/run whichever is smaller
+                temp_index -= min(self.find_run_1d(temp_card, temp_index, -1), self.find_run_1d(temp_card, temp_index, 1))
             else:
                 valuable = False
 
