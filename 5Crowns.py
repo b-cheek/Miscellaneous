@@ -114,23 +114,43 @@ class Player:
         ## Descend through hand until not in a run or book
         temp_index = len(self.hand) - self.num_wilds - 1
         temp_card = self.hand[temp_index]
-        valuable = True
 
-        while valuable:
+        ## Note: Add some code to start accounting for wild cards
+        while temp_index >= 0:
             run_size = self.find_run(temp_card, temp_index)
             book_size = self.find_book(temp_card, temp_index)
             if run_size + book_size > 2: ## If it has at least one other card in same book/run, keep it
-                ## Traverse through the hand, skipping cards in the same book/run whichever is smaller
-                temp_index -= min(self.find_run_1d(temp_card, temp_index, -1), self.find_run_1d(temp_card, temp_index, 1))
+                ## Traverse through the hand, skipping cards in the same book/run whichever is larger
+                ## Note: Check correctness of getting the max book/run instead of the min
+                temp_index -= max(self.find_run_1d(temp_card, temp_index, -1), self.find_run_1d(temp_card, temp_index, 1))
             else:
-                valuable = False
+            ## If the loop finds a card that isn't in any book or run, discard it
+                deck.discard_pile.append(self.hand.pop(temp_index))
+                return False
 
         ## Note that if you have a bunch of pairs, it would consider all of them valuable
         ## I need to add some sort of logic to consider this, and also to go out if possible
 
-        deck.discard_pile.append(self.hand.pop(temp_index))
 
-        return False ## Return true if the player goes out, false otherwise
+        ## Otherwise do the same except with runs/books of 3 instead of two
+        ## I'd make it a function, but the logic changes since I can't just do >2 like above
+        temp_index = len(self.hand) - self.num_wilds - 1
+        temp_card = self.hand[temp_index]
+
+        ## Note: Modify to account for overlapping runs and books
+        while temp_index >= 0:
+            run_size = self.find_run(temp_card, temp_index)
+            book_size = self.find_book(temp_card, temp_index)
+            if run_size>2 or book_size>2: ## If it is in a run/book that can go out
+                ## Traverse through the hand, skipping cards in the same book/run whichever is larger
+                temp_index -= max(self.find_run_1d(temp_card, temp_index, -1), self.find_run_1d(temp_card, temp_index, 1))
+            else:
+            ## If the loop finds a card that isn't in any book or run, discard it
+                deck.discard_pile.append(self.hand.pop(temp_index))
+                return False
+
+        ## If the loop finishes, then the player has gone out
+        return True ## There is no need to call the go_out function, since the player won't accumulate any points
 
     def find_run(self, card, card_index):
         ## Determine if the card is in a run
@@ -172,7 +192,7 @@ class Player:
 
         return book_size
 
-    def go_out(self):
+    def go_out(self): ## Note: This needs to change since no out_hand variable
         return sum([card.points for card in self.hand])
 
     def __str__(self):
