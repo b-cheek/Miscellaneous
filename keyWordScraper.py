@@ -68,7 +68,7 @@ def scrape_website(website_url):
 
 website_url = "https://github.com/pittcsc/Summer2024-Internships"
 common_words, specific_words = scrape_website(website_url)
-newLineCounter = 0;
+newLineCounter = 0
 print(f"Most common buzzwords on links from {website_url}:")
 for key, val in specific_words.most_common():
     print(key, val, end="\t")
