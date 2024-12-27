@@ -13,8 +13,10 @@ for filename in os.listdir('jazzChanges/MusicXML Lead Sheets'):
     key = root.find('.//fifths').text + ' ' + root.find('.//mode').text
 
     # Create list of measures
-    measures = []
-    chords = []
+    measures = [] # each measure in the order (top down left right) they would occur on a lead sheet ignoring repeats, dc, etc
+    chords = [] # each chord in the order it OCCURS, accounting for repeats, dc, etc
+    ending_chords = [] # separate list for an ending that only occurs last time through (preceding chord + coda)
+    # Note that for now I am doing a naive implementation to just get chords after final coda due to coda inconsistencies (see personal notes)
     chord_names = []
     for measure in root.iter('measure'):
         measures.append(measure)
@@ -23,6 +25,10 @@ for filename in os.listdir('jazzChanges/MusicXML Lead Sheets'):
     repeat_to = 0
     take_repeat = True
     while cur_measure < len(measures):
+        if measures[cur_measure].find('./direction/direction-type/coda') is not None:
+            last_coda = cur_measure # TODO: handle ds, dc al coda.
+            # TODO: not implementing this yet because not sure how to stop normal measure progression from going into the coda.
+            # Will work or non-ending roadmap stuff first (ds, dc, 1/2 ending)
         if measures[cur_measure].find('./barline[@location="left"]/repeat[@direction="forward"]') is not None:
             repeat_to = cur_measure
         chords += measures[cur_measure].findall('harmony')
