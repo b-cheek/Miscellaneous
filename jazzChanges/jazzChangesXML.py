@@ -20,7 +20,7 @@ def track_changes(chord_list):
         counters[quality][(interval, next_quality)] += 1
 
 # Parse xml files in MusicXML Lead Sheets folder
-for filename in os.listdir('jazzChanges/MusicXML Lead Sheets'):
+for filename in os.listdir('jazzChanges/tough sheets'):
     if filename in ['Cheek To Cheek.musicxml']: # Skip files that cause errors
         continue
     tree = ET.parse('jazzChanges/MusicXML Lead Sheets/' + filename)
@@ -54,7 +54,7 @@ for filename in os.listdir('jazzChanges/MusicXML Lead Sheets'):
         if measures[cur_measure].find('./direction/direction-type/coda') is not None:
             # last_coda = cur_measure # TODO: handle ds, dc al coda.
             # TODO: not implementing this yet because not sure how to stop normal measure progression from going into the coda.
-            # Will work or non-ending roadmap stuff first (ds, dc, 1/2 ending)
+            # Will work on non-ending roadmap stuff first (ds, dc, 1/2 ending)
             if go_to_coda:
                 cur_measure = coda_measure # Coda should be set to repeat measure, maybe remove coda_measure var
                 go_to_coda = False
@@ -63,12 +63,13 @@ for filename in os.listdir('jazzChanges/MusicXML Lead Sheets'):
         if measures[cur_measure].find('./direction/direction-type/segno') is not None:
             sign_measure = cur_measure
 
+        # Check for forward repeat
         if measures[cur_measure].find('./barline[@location="left"]/repeat[@direction="forward"]') is not None:
             repeat_to = cur_measure
 
         # Check for ending
         if (e := measures[cur_measure].find('./barline/ending[@type="start"]')) is not None: 
-            if int(e.get('number')) < repeat_num:
+            if int(e.get('number')) < repeat_num: # Go to correct ending
                 cur_measure = repeat_measure + 1 # before adding chord because 1st ending skipped 2nd time
                 continue
             if repeat_num == 2: #TODO: is if statement necessary?
