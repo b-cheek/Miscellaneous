@@ -1,0 +1,136 @@
+# Sequence routine broken into 2 parts, 
+# a small jump (scales) section and a big jump (arpeggios/harmonics/fixed size) section
+# Maybe do a separate section for chromatic and maybe whole tone? maybe diminished too?
+# Scales do one octave at a time, arpeggios do full range
+# Same pattern for all scales and all arpeggios. Do at 2 speeds? depends on pattern...
+# Do everything based on an importance rating from 0-100;
+# kind of like what % of days would you want this to appear in your routine
+sequence routine:
+  small jump:
+    scale:
+      major: 80
+      minor: 60
+      harmonicMinor: 50
+      melodicMinor: 20
+
+    harmonic pattern:
+      # monotonic 21
+      baker: 80
+      repeated root: 40
+      9th: 40
+      remington modes: 30
+
+      # pedal 11
+      5th pedal: 50
+      root pedal: 40
+
+      # thirds extension 10
+      thirds scale: 60
+      triad scale: 30
+      7th chord scale: 20 
+      octave scale: 40
+
+      # Other 4
+      clarke 2nd study: 40
+
+      # 2-Jump Procedural
+      # All should be rotated. Inversion pattern? Interleave patterns?
+      1,1,-1:
+      1,1,1,-2:
+      1,-1,-1,-2:
+      -1,-1,1,-2:
+      -2,2,1:
+      2,-2,-1:
+      2,2,-2-1:
+      -2,2,2,-1:
+
+
+  big jump:
+    scale:
+      major: 80
+      minor: 70
+      harmonic: 70
+      fixed: 50 #m3-P5?
+
+    # Many of these only apply to scalar?
+    harmonic pattern:
+    # These two interchangeable for harmonic and fixed
+      baker: 70
+      9th: 50
+      repeated root: 30 
+
+      5th pedal: 40
+      root pedal: 50
+
+      skips: 30
+      octaves: 50
+
+      alberti: 40
+
+      # Procedural 2-jump
+      # How to handle ranges? TODO 
+      # CURRENT SOLUTION: try to make it last as long as scale, ie "two octaves" for how arpeggio patterns written?
+      1:
+      1,1,-1,-1:
+      1,-1:
+      1,1,-1:
+      1,1,-2:
+      1,1,1,-2:
+      1,-1,-1,-2:
+      -1,-1,1,-2:
+      -1,1,-1,2:
+      2,1,-2,-1:
+      2,1,-1,-2:
+      1,2,-1,-2:
+      -1,2:
+      2,-1,1,-1:
+      -2,2,1:
+      2,-2,1:
+      2,2,-2,-1:
+      -2,2,2,-1:
+      2,-2,2,-1:
+      2,2,-2,-2:
+      2,-2:
+
+
+
+  # Dynamic and articulation patterns shared between big and small jump where applicable?
+  # Split into speed: subito (immediate change of dynamic) and gradual (cresc/dim)
+  # Further divided into how many dynamic blocks
+  # Each block is given dynamic but not same as last block. Note that pp and ff mean as soft/loud as possible
+  dynamic pattern:
+    speed:
+      subito: 60
+      gradual: 80
+
+    blocks:
+      1: 90
+      2: 80
+      4: 70
+      8: 50
+      16: 20
+
+    dynamics:
+      # Maybe some special logic to select p-f and f-p
+      mf: 80
+      p: 60
+      f: 60
+      pp: 40
+      ff: 40
+  
+  # t = tongue; s = slur; repeat pattern throughout measure
+  # Note that ALL these patterns can/should be rotated and inverted (switch tongue and slur)
+  # Maybe change stats if mutually exclusive with dynamic changes
+  articulation pattern:
+    t: 90
+    ts: 40
+    tts: 50
+    ttss: 60
+    ttts: 50
+    g: 50 # Glissando
+    gf: 40 # Glissando with flutter
+
+  articulation style:
+    none: 90
+    staccato: 60
+    legato: 50
