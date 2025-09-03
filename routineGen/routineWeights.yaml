@@ -10,8 +10,67 @@ sequence routine:
     scale:
       major: 80
       minor: 60
-      harmonicMinor: 50
-      melodicMinor: 20
+      harmonic minor: 50
+      melodic minor: 20
+
+    harmonic options:
+      major:
+        - baker 
+        - repeated root 
+        - 9th 
+        - remington modes 
+        - 5th pedal 
+        - root pedal 
+        - thirds scale 
+        - triad scale 
+        - 7th chord scale 
+        - octave scale 
+        - clarke 2nd study 
+        - 1,1,-1 
+        - 1,1,1,-2 
+        - 1,-1,-1,-5
+        - -1,-1,1,-5
+        - -2,2,5
+        - 2,-2,-5
+        - 2,2,-2-5
+        - -2,2,2,-5
+      minor: 60
+        - baker 
+        - repeated root 
+        - 9th 
+        - remington modes 
+        - 5th pedal 
+        - root pedal 
+        - thirds scale 
+        - triad scale 
+        - 7th chord scale 
+        - octave scale 
+        - clarke 2nd study 
+        - 1,1,-1 
+        - 1,1,1,-2 
+        - 1,-1,-1,-5
+        - -1,-1,1,-5
+        - -2,2,5
+        - 2,-2,-5
+        - 2,2,-2-5
+        - -2,2,2,-5
+      harmonic minor: 50
+        - baker 
+        - repeated root 
+        - 9th 
+        - 5th pedal 
+        - root pedal 
+        - thirds scale 
+        - octave scale 
+        - clarke 2nd study 
+        - 1,1,1,-2 
+      melodic minor: 20
+        - baker 
+        - repeated root 
+        - 9th 
+        - 5th pedal 
+        - root pedal 
+        - octave scale 
 
     harmonic pattern:
       # monotonic 21
@@ -49,10 +108,122 @@ sequence routine:
     scale:
       major: 80
       minor: 70
-      harmonic: 70
-      fixed: 50 #m3-P5?
+      harmonic: 60
+      # fixed: 50 #m3-P5?
+      P5: 50
 
-    # Many of these only apply to scalar?
+    harmonic options:
+      major:
+        - baker
+        - 9th
+        - repeated root
+        - 5th pedal
+        - root pedal
+        - skips
+        - octaves
+        - alberti
+        - 1
+        - 1,1,-1,-1
+        - 1,-1
+        - 1,1,-1
+        - 1,1,-2
+        - 1,1,1,-2
+        - 1,-1,-1,-2
+        - -1,-1,1,-2
+        - -1,1,-1,2
+        - 2,1,-2,-1
+        - 2,1,-1,-2
+        - 1,2,-1,-2
+        - -1,2
+        - 2,-1,1,-1
+        - -2,2,1
+        - 2,-2,1
+        - 2,2,-2,-1
+        - -2,2,2,-1
+        - 2,-2,2,-1
+        - 2,2,-2,-2
+        - 2,-2
+      minor:
+        - baker
+        - repeated root
+        - 5th pedal
+        - root pedal
+        - skips
+        - octaves
+        - alberti
+        - 1
+        - 1,1,-1,-1
+        - 1,-1
+        - 1,1,-1
+        - 1,1,-2
+        - 1,1,1,-2
+        - 1,-1,-1,-2
+        - -1,-1,1,-2
+        - -1,1,-1,2
+        - 2,1,-2,-1
+        - 2,1,-1,-2
+        - 1,2,-1,-2
+        - -1,2
+        - 2,-1,1,-1
+        - -2,2,1
+        - 2,-2,1
+        - 2,2,-2,-1
+        - -2,2,2,-1
+        - 2,-2,2,-1
+        - 2,2,-2,-2
+        - 2,-2
+      harmonic:
+        - repeated root
+        - root pedal
+        - skips
+        - octaves
+        - 1
+        - 1,1,-1,-1
+        - 1,-1
+        - 1,1,-1
+        - 1,1,-2
+        - 1,1,1,-2
+        - 1,-1,-1,-2
+        - -1,-1,1,-2
+        - -1,1,-1,2
+        - 2,1,-2,-1
+        - 2,1,-1,-2
+        - 1,2,-1,-2
+        - -1,2
+        - 2,-1,1,-1
+        - -2,2,1
+        - 2,-2,1
+        - 2,2,-2,-1
+        - -2,2,2,-1
+        - 2,-2,2,-1
+        - 2,2,-2,-2
+        - 2,-2
+      P5:
+        - root pedal
+        - skips
+        - octaves
+        - 1
+        - 1,1,-1,-1
+        - 1,-1
+        - 1,1,-1
+        - 1,1,-2
+        - 1,1,1,-2
+        - 1,-1,-1,-2
+        - -1,-1,1,-2
+        - -1,1,-1,2
+        - 2,1,-2,-1
+        - 2,1,-1,-2
+        - 1,2,-1,-2
+        - -1,2
+        - 2,-1,1,-1
+        - -2,2,1
+        - 2,-2,1
+        - 2,2,-2,-1
+        - -2,2,2,-1
+        - 2,-2,2,-1
+        - 2,2,-2,-2
+        - 2,-2
+
     harmonic pattern:
     # These two interchangeable for harmonic and fixed
       baker: 70
@@ -122,13 +293,17 @@ sequence routine:
   # Note that ALL these patterns can/should be rotated and inverted (switch tongue and slur)
   # Maybe change stats if mutually exclusive with dynamic changes
   articulation pattern:
-    t: 90
-    ts: 40
-    tts: 50
-    ttss: 60
-    ttts: 50
-    g: 50 # Glissando
-    gf: 40 # Glissando with flutter
+    base 2:
+      ts: 40
+      ttss: 60
+      ttts: 50
+      g: 50 # Glissando
+      gf: 40 # Glissando with flutter
+    base 3:
+      t: 90
+      tts: 50
+      g: 50 # Glissando
+      gf: 40 # Glissando with flutter
 
   articulation style:
     none: 90
