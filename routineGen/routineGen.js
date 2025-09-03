@@ -54,7 +54,25 @@ const generateRoutine = () => {
 
         const smallJumpScaleOptions = routineWeights["sequence routine"]["small jump"]["harmonic options"][smallJumpScale];
 
-        console.log(smallJumpScale, randomWeightChoice(routineWeights["sequence routine"]["small jump"]["harmonic pattern"], smallJumpScaleOptions));
+        const smallJumpPattern = (smallJumpScale, randomWeightChoice(routineWeights["sequence routine"]["small jump"]["harmonic pattern"], smallJumpScaleOptions));
+        
+        const smallJumpArticulationPattern = (randomWeightChoice(routineWeights["sequence routine"]["articulation pattern"][
+            (routineWeights["sequence routine"]["three note patterns"].includes(smallJumpPattern)
+            ? "base 3"
+            : "base 2")
+        ]))
+
+        const smallJumpArticulationStyle = randomWeightChoice(routineWeights["sequence routine"]["articulation style"])
+
+        let dynamicSpeed = randomWeightChoice(routineWeights["sequence routine"]["dynamic pattern"]["speed"]);
+
+        let dynamicBlocks = ""
+
+        for (let i=0; i<parseInt(randomWeightChoice(routineWeights["sequence routine"]["dynamic pattern"]["blocks"])); i++) {
+            dynamicBlocks += randomWeightChoice(routineWeights["sequence routine"]["dynamic pattern"]["dynamics"]) + ",";
+        }
+
+        console.log(`${smallJumpScale} ${smallJumpPattern}, ${smallJumpArticulationPattern} ${smallJumpArticulationStyle}, ${dynamicSpeed}, ${dynamicBlocks}`)
 
         let bigJumpIntervals;
 
@@ -76,13 +94,27 @@ const generateRoutine = () => {
 
         const bigJumpScaleOptions = routineWeights["sequence routine"]["big jump"]["harmonic options"][bigJumpScale];
 
-        console.log(bigJumpScale, randomWeightChoice(routineWeights["sequence routine"]["big jump"]["harmonic pattern"], bigJumpScaleOptions));
+        const bigJumpPattern = (bigJumpScale, randomWeightChoice(routineWeights["sequence routine"]["big jump"]["harmonic pattern"], bigJumpScaleOptions));
+        
+        const bigJumpArticulationPattern = (randomWeightChoice(routineWeights["sequence routine"]["articulation pattern"][
+            (routineWeights["sequence routine"]["three note patterns"].includes(bigJumpPattern)
+            ? "base 3"
+            : "base 2")
+        ]))
 
+        const bigJumpArticulationStyle = randomWeightChoice(routineWeights["sequence routine"]["articulation style"])
 
+        dynamicSpeed = randomWeightChoice(routineWeights["sequence routine"]["dynamic pattern"]["speed"]);
 
+        dynamicBlocks = ""
 
-        randomWeightChoice(routineWeights["sequence routine"]["big jump"]["scale"]);
-        randomWeightChoice(routineWeights["sequence routine"]["big jump"]["harmonic pattern"]);
+        for (let i=0; i<parseInt(randomWeightChoice(routineWeights["sequence routine"]["dynamic pattern"]["blocks"])); i++) {
+            dynamicBlocks += randomWeightChoice(routineWeights["sequence routine"]["dynamic pattern"]["dynamics"]) + ",";
+        }
+
+        console.log(`${bigJumpScale} ${bigJumpPattern}, ${bigJumpArticulationPattern} ${bigJumpArticulationStyle}, ${dynamicSpeed} ${dynamicBlocks}`)
+
+        
 
         randomWeightChoice(routineWeights["sequence routine"]["dynamic pattern"]["speed"]);
         randomWeightChoice(routineWeights["sequence routine"]["dynamic pattern"]["blocks"]);
@@ -98,5 +130,5 @@ const generateRoutine = () => {
 
 
 
-    abcjs.renderAbc("paper", routineAbc);
+    abcjs.renderAbc("paper", '');
 }

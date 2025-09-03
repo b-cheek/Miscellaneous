@@ -1,5 +1,13 @@
 routineWeights = {
     "sequence routine": {
+        "three note patterns": [
+            "triplet repeated root",
+            "triad scale",
+            "1,1,-1",
+            "-2,2,1",
+            "2,-2,1",
+            "1,1,-2"
+        ],
         "small jump": {
             "scale": {
                 "major": 80,
@@ -11,6 +19,7 @@ routineWeights = {
                 "major": [
                     "baker",
                     "repeated root",
+                    "triplet repeated root",
                     "9th",
                     "remington modes",
                     "5th pedal",
@@ -22,20 +31,21 @@ routineWeights = {
                     "clarke 2nd study",
                     "1,1,-1",
                     "1,1,1,-2",
-                    "1,-1,-1,-5",
-                    "-1,-1,1,-5",
-                    "-2,2,5",
-                    "2,-2,-5",
-                    "2,2,-2-5",
-                    "-2,2,2,-5"
+                    "1,-1,-1,2",
+                    "-1,-1,1,2",
+                    "-2,2,1",
+                    "2,-2,1",
+                    "2,2,-2,-1",
+                    "-2,2,2,-1"
                 ],
-                "minor": "60 - baker - repeated root - 9th - remington modes - 5th pedal - root pedal - thirds scale - triad scale - 7th chord scale - octave scale - clarke 2nd study - 1,1,-1 - 1,1,1,-2 - 1,-1,-1,-5 - -1,-1,1,-5 - -2,2,5 - 2,-2,-5 - 2,2,-2-5 - -2,2,2,-5",
-                "harmonic minor": "50 - baker - repeated root - 9th - 5th pedal - root pedal - thirds scale - octave scale - clarke 2nd study - 1,1,1,-2",
-                "melodic minor": "20 - baker - repeated root - 9th - 5th pedal - root pedal - octave scale"
+                "minor": "60 - baker - repeated root - triplet repeated root - 9th - remington modes - 5th pedal - root pedal - thirds scale - triad scale - 7th chord scale - octave scale - clarke 2nd study - 1,1,-1 - 1,1,1,-2 - 1,-1,-1,2 - -1,-1,1,2 - -2,2,1 - 2,-2,1 - 2,2,-2,-1 - -2,2,2,-1",
+                "harmonic minor": "50 - baker - repeated root - triplet repeated root - 9th - 5th pedal - root pedal - thirds scale - octave scale - clarke 2nd study - 1,1,1,-2",
+                "melodic minor": "20 - baker - repeated root - triplet repeated root - 9th - 5th pedal - root pedal - octave scale"
             },
             "harmonic pattern": {
                 "baker": 80,
-                "repeated root": 40,
+                "repeated root": 25,
+                "triplet repeated root": 15,
                 "9th": 40,
                 "remington modes": 30,
                 "5th pedal": 50,
@@ -66,7 +76,7 @@ routineWeights = {
                 "major": [
                     "baker",
                     "9th",
-                    "repeated root",
+                    "triplet repeated root",
                     "5th pedal",
                     "root pedal",
                     "skips",
@@ -96,7 +106,7 @@ routineWeights = {
                 ],
                 "minor": [
                     "baker",
-                    "repeated root",
+                    "triplet repeated root",
                     "5th pedal",
                     "root pedal",
                     "skips",
@@ -125,7 +135,7 @@ routineWeights = {
                     "2,-2"
                 ],
                 "harmonic": [
-                    "repeated root",
+                    "triplet repeated root",
                     "root pedal",
                     "skips",
                     "octaves",
@@ -182,7 +192,7 @@ routineWeights = {
                 "1": 30,
                 "baker": 70,
                 "9th": 50,
-                "repeated root": 30,
+                "triplet repeated root": 30,
                 "5th pedal": 40,
                 "root pedal": 50,
                 "skips": 30,
